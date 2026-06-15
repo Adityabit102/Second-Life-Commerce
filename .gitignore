@@ -1,0 +1,25 @@
+# Dependencies
+node_modules/
+dist/
+venv/
+.venv/
+__pycache__/
+*.pyc
+
+# Environment files
+.env
+.env.local
+
+# Databases
+*.db
+*.sqlite3
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDEs and Editors
+.vscode/
+.idea/
+.claude/
+.kiro/

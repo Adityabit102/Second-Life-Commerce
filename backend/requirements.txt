@@ -1,0 +1,10 @@
+fastapi
+uvicorn[standard]
+boto3
+sqlalchemy
+python-multipart
+pillow
+python-dotenv
+pydantic
+pydantic-settings
+httpx

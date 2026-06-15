@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background-color: #EAEDED;
+  color: #0F1111;
+  font-family: "Amazon Ember", Arial, sans-serif;
+}
+
+/* Amazon-style focus ring */
+input:focus, select:focus, textarea:focus {
+  outline: 3px solid #e77600;
+  outline-offset: 0px;
+  box-shadow: 0 0 0 4px rgba(228, 121, 17, 0.25);
+}
+
+/* Amazon yellow button */
+.btn-amz-primary {
+  background: linear-gradient(to bottom, #f7dfa5, #f0c14b);
+  border: 1px solid #a88734;
+  border-bottom-color: #9c7e31;
+  color: #111;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 13px;
+  padding: 6px 10px;
+}
+.btn-amz-primary:hover {
+  background: linear-gradient(to bottom, #f5d78e, #eeb933);
+}
+
+/* Cart badge */
+.cart-badge {
+  background: #F08804;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  border-radius: 9999px;
+  padding: 0 5px;
+  line-height: 16px;
+  min-width: 16px;
+  text-align: center;
+}
