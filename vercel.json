@@ -1,45 +1,34 @@
 {
-  "version": 2,
-  "builds": [
-    {
-      "src": "backend/main.py",
-      "use": "@vercel/python",
-      "config": {
-        "maxLambdaSize": "50mb"
-      }
+  "experimentalServices": {
+    "frontend": {
+      "root": "frontend",
+      "framework": "vite",
+      "outputDirectory": "dist",
+      "buildCommand": "npm run build",
+      "installCommand": "npm install"
     },
-    {
-      "src": "frontend/package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "frontend/dist"
-      }
+    "backend": {
+      "root": "backend",
+      "framework": "fastapi",
+      "buildCommand": "pip install -r requirements.txt"
     }
-  ],
-  "routes": [
+  },
+  "rewrites": [
     {
-      "src": "/api/(.*)",
-      "dest": "backend/main.py"
+      "source": "/api/:path*",
+      "destination": "/backend/api/:path*"
     },
     {
-      "src": "/static/(.*)",
-      "dest": "backend/main.py"
+      "source": "/static/:path*",
+      "destination": "/backend/static/:path*"
     },
     {
-      "src": "/health",
-      "dest": "backend/main.py"
+      "source": "/health",
+      "destination": "/backend/health"
     },
     {
-      "src": "/docs",
-      "dest": "backend/main.py"
-    },
-    {
-      "src": "/openapi.json",
-      "dest": "backend/main.py"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "frontend/$1"
+      "source": "/docs",
+      "destination": "/backend/docs"
     }
   ]
 }
