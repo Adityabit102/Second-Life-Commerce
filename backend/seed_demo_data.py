@@ -1192,14 +1192,8 @@ def _print_summary(listing_count: int):
 
 
 if __name__ == "__main__":
-    from sqlalchemy import text as _sql_text
-    try:
-        with engine.begin() as _c:
-            _c.execute(_sql_text("ALTER TABLE orders ADD COLUMN seller_decision VARCHAR"))
-    except Exception:
-        pass
-
     import argparse
+
     parser = argparse.ArgumentParser()
     parser.add_argument("--full-reset", action="store_true",
                         help="Wipe ALL tables (returns, listings, transactions, orders) before reseeding")
