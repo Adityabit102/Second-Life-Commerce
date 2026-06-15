@@ -1,9 +1,13 @@
+backend/.env
 backend/venv/
 backend/__pycache__/
+backend/**/__pycache__/
 backend/*.db
-backend/.env
+backend/second_life.db
+backend/static/uploads/
 frontend/node_modules/
 frontend/dist/
 .claude/
 __MACOSX/
 *.DS_Store
+.env

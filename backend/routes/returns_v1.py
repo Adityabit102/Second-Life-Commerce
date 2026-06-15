@@ -407,13 +407,19 @@ async def grade_return(
             pass
     if not image_url:
         try:
-            ext = (image.filename or "image.jpg").rsplit(".", 1)[-1].lower()
-            fname = f"{uuid.uuid4().hex}.{ext}"
-            upload_dir = os.path.join(os.path.dirname(__file__), "..", "static", "uploads")
-            os.makedirs(upload_dir, exist_ok=True)
-            with open(os.path.join(upload_dir, fname), "wb") as f:
-                f.write(contents)
-            image_url = f"/static/uploads/{fname}"
+            import base64 as _b64
+            is_vercel = os.environ.get("VERCEL") == "1"
+            if is_vercel:
+                _mime = image.content_type or "image/jpeg"
+                image_url = f"data:{_mime};base64,{_b64.b64encode(contents).decode()}"
+            else:
+                ext = (image.filename or "image.jpg").rsplit(".", 1)[-1].lower()
+                fname = f"{uuid.uuid4().hex}.{ext}"
+                upload_dir = os.path.join(os.path.dirname(__file__), "..", "static", "uploads")
+                os.makedirs(upload_dir, exist_ok=True)
+                with open(os.path.join(upload_dir, fname), "wb") as f:
+                    f.write(contents)
+                image_url = f"/static/uploads/{fname}"
         except Exception:
             pass
 

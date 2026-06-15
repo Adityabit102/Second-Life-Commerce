@@ -1,12 +1,12 @@
 import json
+import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.staticfiles import StaticFiles
 from models.database import engine, Base
-from models import return_grade  # registers ReturnGrade with Base.metadata  # noqa: F401
-from models import credit_transaction  # registers CreditTransaction  # noqa: F401
-from models import listing  # registers Listing  # noqa: F401
-from models import order  # registers Order  # noqa: F401
+from models import return_grade  # noqa: F401
+from models import credit_transaction  # noqa: F401
+from models import listing  # noqa: F401
+from models import order  # noqa: F401
 from routes import returns, products, uploads, returns_v1, deflect, credits, marketplace, predict, orders, chat
 from utils.config import settings
 
@@ -19,9 +19,9 @@ try:
     with engine.begin() as _conn:
         _conn.execute(_sql_text("ALTER TABLE listings ADD COLUMN extra_images_json TEXT"))
 except Exception:
-    pass  # column already exists
+    pass
 
-# Populate extra images for seeded demo listings so the marketplace carousel works
+# Populate extra images for seeded demo listings
 _DEMO_EXTRA_IMAGES = {
     "Sony WH-1000XM4 Headphones": json.dumps([
         "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&h=400&auto=format&fit=crop&q=80",
@@ -74,7 +74,6 @@ app = FastAPI(
     version="1.0.0",
 )
 
-import os
 allow_origins = [
     "http://localhost:5173",
     os.environ.get("FRONTEND_URL", ""),
@@ -99,8 +98,10 @@ app.include_router(predict.router, prefix="/api/v1/predict", tags=["predict"])
 app.include_router(orders.router, prefix="/api/v1/orders", tags=["orders"])
 app.include_router(chat.router, prefix="/api/v1/chat", tags=["chat"])
 
-
-app.mount("/static", StaticFiles(directory="static"), name="static")
+# Only mount static files if the directory exists (not available on Vercel serverless)
+if os.path.isdir("static"):
+    from fastapi.staticfiles import StaticFiles
+    app.mount("/static", StaticFiles(directory="static"), name="static")
 
 
 @app.get("/")
