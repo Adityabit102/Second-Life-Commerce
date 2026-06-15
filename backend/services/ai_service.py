@@ -4,7 +4,7 @@ import boto3
 
 from utils.config import settings
 
-MODEL_ID = "anthropic.claude-3-sonnet-20240229-v1:0"
+MODEL_ID = "anthropic.claude-sonnet-4-5-20251001"
 
 
 class AIService:

@@ -12,13 +12,7 @@ from utils.config import settings
 
 Base.metadata.create_all(bind=engine)
 
-# Migrate: add seller_decision column to existing orders tables
 from sqlalchemy import text as _sql_text
-try:
-    with engine.begin() as _conn:
-        _conn.execute(_sql_text("ALTER TABLE orders ADD COLUMN seller_decision VARCHAR"))
-except Exception:
-    pass  # column already exists
 
 # Migrate: add extra_images_json column to listings table
 try:
@@ -80,9 +74,15 @@ app = FastAPI(
     version="1.0.0",
 )
 
+import os
+allow_origins = [
+    "http://localhost:5173",
+    os.environ.get("FRONTEND_URL", ""),
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
+    allow_origins=allow_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

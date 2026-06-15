@@ -8,3 +8,5 @@ python-dotenv
 pydantic
 pydantic-settings
 httpx
+groq
+psycopg2-binary
